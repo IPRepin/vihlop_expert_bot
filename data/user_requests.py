@@ -16,15 +16,16 @@ async def add_user(session: AsyncSession,
                    tg_id: int,
                    username: str,
                    ) -> Optional[User]:
-    user = await session.scalar(select(User).where(User.tg_user_id == tg_id))
+    user = await session.scalar(select(User).where(User.user_id == tg_id))
 
     if not user:
         session.add(User(
-            username=username,
-            tg_user_id=tg_id,
+            user_name=username,
+            user_id=tg_id,
         )
         )
         await session.commit()
+        logger.info("Пользователь %e добавлен", tg_id)
         return user
     else:
         logger.info("Пользователь %e найден", tg_id)

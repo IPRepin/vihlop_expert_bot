@@ -7,6 +7,8 @@ from data.db_connect import get_session
 from data.user_requests import add_user
 from utils.logging_settings import setup_logging
 
+from keyboards.user_keyboards.main_keyboards import main_keyboard
+
 main_router = Router()
 
 logger = logging.getLogger(setup_logging())
@@ -19,8 +21,7 @@ async def command_start(message: types.Message) -> None:
                        tg_id=message.from_user.id,
                        username=message.from_user.full_name,
                        )
-    logger.info("Пользователь %e добавлен", message.from_user.id)
     await message.answer(f"Привет {message.from_user.first_name}!\n"\
             "Добро пожаловать Выхлоп эксперт!",
-            # reply_markup=await main_keyboard()
+            reply_markup=await main_keyboard()
                          )
