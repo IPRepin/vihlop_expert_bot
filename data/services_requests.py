@@ -47,13 +47,15 @@ async def get_services(session: AsyncSession, **kwargs) -> Optional[List[Service
 
 async def get_service(session: AsyncSession, **kwargs) -> Optional[Service]:
     try:
-        service = await session.scalar(select(Service).where(**kwargs))
+        query = select(Service).filter_by(**kwargs)
+        service = await session.scalar(query)
         if service:
             return service
-        else:
-            logger.error("Услуга не найдена")
+        logger.error("Услуга не найдена")
     except Exception as e:
-        logger.error("Ошибка при получении услуги %s", e)
+        logger.error("Ошибка при получении услуги: %s", e)
+    return None  # Явно возвращаем None, если ничего не найдено
+
 
 
 async def delete_service(session: AsyncSession, **kwargs) -> None:
