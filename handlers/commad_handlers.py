@@ -21,7 +21,7 @@ async def command_start(message: types.Message) -> None:
                        tg_id=message.from_user.id,
                        username=message.from_user.full_name,
                        )
-    await message.answer(f"Привет {message.from_user.first_name}!\n"\
+    await message.answer_photo(photo="https://ibb.co/2n9hRWx", caption=f"Привет {message.from_user.first_name}!\n"\
             "Добро пожаловать Выхлоп эксперт!",
             reply_markup=await main_keyboard()
                          )

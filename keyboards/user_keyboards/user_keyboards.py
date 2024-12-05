@@ -1,5 +1,4 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
 
@@ -12,8 +11,8 @@ async def add_review_keyboard():
                     web_app=WebAppInfo(url="https://clck.ru/3F2E4p")
                 )
             ],
-            [InlineKeyboardButton(text="↩️На главное меню",
-                                  callback_data="cancel")],
+            [InlineKeyboardButton(text="На главное меню",
+                                  callback_data="main_keyboard")],
         ]
     )
     return review_clinic_keyboard

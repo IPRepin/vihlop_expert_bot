@@ -26,6 +26,7 @@ class Admin(BaseModel):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(BigInteger, nullable=False)
+    user_name = Column(String(length=255), nullable=False)
 
 
 class Stock(BaseModel):
