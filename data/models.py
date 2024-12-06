@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, BigInteger, ForeignKey, Text
+from sqlalchemy import Column, String, Integer, BigInteger, ForeignKey, Text, Boolean
 
 from data.db_connect import BaseModel
 
@@ -19,6 +19,7 @@ class Application(BaseModel):
     id = Column(Integer, primary_key=True, index=True)
     user_name = Column(String(length=255), nullable=False)
     phone = Column(String(length=50), nullable=False)
+    viewed = Column(Boolean, nullable=False, default=False)
 
 
 class Admin(BaseModel):

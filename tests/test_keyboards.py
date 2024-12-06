@@ -1,11 +1,10 @@
 import pytest
 from aiogram.types import InlineKeyboardMarkup, ReplyKeyboardMarkup
 from keyboards.user_keyboards.main_keyboards import (
-    repair_services_keyboard,
-    chip_tuning_keyboard,
     main_keyboard
 )
-from keyboards.user_keyboards.user_keyboards import add_review_keyboard
+from keyboards.user_keyboards.user_keyboards import add_review_keyboard, repair_services_keyboard, chip_tuning_keyboard
+
 
 @pytest.mark.asyncio
 async def test_repair_services_keyboard():

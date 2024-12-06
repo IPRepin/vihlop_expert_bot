@@ -9,7 +9,9 @@ from aiogram.exceptions import TelegramNetworkError, TelegramRetryAfter
 
 from config import settings
 from handlers.commad_handlers import main_router
+from handlers.user_handlers.fsm_application import fsm_app_router
 from handlers.user_handlers.main_handlers import main_user_router
+from handlers.user_handlers.service_handlers import service_router
 from utils.commands import register_commands
 from utils.logging_settings import setup_logging
 
@@ -20,9 +22,10 @@ async def bot_connect():
     bot = Bot(token=settings.TELEGRAM_TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
     dp = Dispatcher(storage=storage)
     dp.include_routers(
+        fsm_app_router,
         main_user_router,
         main_router,
-
+        service_router,
     )
     try:
         await bot.delete_webhook(drop_pending_updates=True)

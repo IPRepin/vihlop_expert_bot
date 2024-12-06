@@ -6,9 +6,9 @@ from handlers.user_handlers.main_handlers import (
     get_tuning_list,
     get_chip_tuning_list,
     add_review,
-    back_to_main_keyboard,
-    view_service
+    back_to_main_keyboard
 )
+from handlers.user_handlers.service_handlers import view_service
 from tests.mocks import get_mock_session, MockService
 
 mock_services = [
