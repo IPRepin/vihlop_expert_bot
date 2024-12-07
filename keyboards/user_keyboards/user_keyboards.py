@@ -37,8 +37,20 @@ async def repair_services_keyboard(category_id: int):
     keyboard = InlineKeyboardBuilder()
     async for session in get_session():
         all_services = await get_services(session=session, category_id=category_id)
-        for service in all_services:
-            keyboard.add(InlineKeyboardButton(text=service.title, callback_data=f"service_{service.id}"))
+        if all_services:  # Проверяем, что список услуг не None
+            for service in all_services:
+                keyboard.add(InlineKeyboardButton(text=service.title, callback_data=f"service_{service.id}"))
+    keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
+    return keyboard.adjust(1).as_markup()
+
+
+async def tuning_services_keyboard(category_id: int):
+    keyboard = InlineKeyboardBuilder()
+    async for session in get_session():
+        all_services = await get_services(session=session, category_id=category_id)
+        if all_services:  # Проверяем, что список услуг не None
+            for service in all_services:
+                keyboard.add(InlineKeyboardButton(text=service.title, callback_data=f"service_{service.id}"))
     keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
 

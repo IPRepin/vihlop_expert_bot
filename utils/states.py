@@ -7,3 +7,9 @@ class StatesAddApplication(StatesGroup):
     """
     NAME = State()
     PHONE = State()
+
+class StatesApplication(StatesGroup):
+    """
+    Модуль определения состояний для проверки заявки
+    """
+    APPLICATION_ID = State()

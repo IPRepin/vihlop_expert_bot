@@ -1,12 +1,12 @@
-import re
-
 import logging
 
-from aiogram import Router, F, types
+from aiogram import Router, F, types, Bot
 from aiogram.fsm.context import FSMContext
 
 from data.application_requests import add_application
+from filters.admins_filter import get_random_admin
 from filters.phone_valid import is_valid_phone, clean_phone_number
+from keyboards.admin_keyboards.main_admin_keyboards import admin_keyboards
 from utils.logging_settings import setup_logging
 from utils.states import StatesAddApplication
 from data.db_connect import get_session
@@ -30,7 +30,7 @@ async def add_phone_number(massage: types.Message, state: FSMContext):
 
 
 @fsm_app_router.message(StatesAddApplication.PHONE)
-async def add_phone_number(message: types.Message, state: FSMContext):
+async def add_phone_number(message: types.Message, state: FSMContext, bot: Bot):
     phone = message.text.strip()  # Убираем лишние пробелы
     if not is_valid_phone(phone):  # Проверка на корректность номера
         await message.answer("Введите корректный номер телефона в формате "
@@ -45,12 +45,18 @@ async def add_phone_number(message: types.Message, state: FSMContext):
 
     try:
         async for session in get_session():
-            application = await add_application(
+            await add_application(
                 session=session,
                 user_name=data.get("name"),
                 phone=data.get("phone"),
             )
         await message.answer("Мы свяжемся с вами в ближайшее время!")
+        admin_id = await get_random_admin()
+        await bot.send_message(chat_id=admin_id, text=f"❗❗Пришла новая заявка!❗❗\n"
+                                                      f"Имя: {data.get('name')}\n"
+                                                      f"Телефон: {data.get('phone')}\n"
+                                                      "Нажмите на кнопку '⏩Проверить заявки'",
+                               reply_markup=await admin_keyboards())
     except Exception as e:
         logger.error(e)
 

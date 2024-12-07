@@ -47,10 +47,20 @@ async def get_all_applications(session: AsyncSession) -> Optional[Application]:
         return None
 
 
-async def get_applications_by_filter(session: AsyncSession, **kwargs) -> Optional[Application]:
+async def get_application_by_filter(session: AsyncSession, **kwargs) -> Optional[Application]:
     try:
-        applications = await session.scalars(select(Application).filter_by(**kwargs))
-        return applications.all()
+        application = await session.scalar(select(Application).filter_by(**kwargs))
+        return application
     except Exception as ex:
         logger.error("Ошибка при получении заявок %s", ex)
         return None
+
+async def update_application(session: AsyncSession, **kwargs) -> Application:
+    try:
+        application = await session.scalar(select(Application).filter_by(**kwargs))
+        application.viewed = True
+        await session.commit()
+        await session.refresh(application)
+        return application
+    except Exception as ex:
+        logger.error("Ошибка при обновлении заявки %s", ex)

@@ -12,4 +12,8 @@ def clean_phone_number(phone: str) -> str:
     if clean_phone.startswith("8"):
         clean_phone = "+7" + clean_phone[1:]  # Приводим номера, начинающиеся с "8", к формату "+7"
         return clean_phone
+    elif clean_phone.startswith("7"):
+        clean_phone = "+7" + clean_phone[1:]
+        return clean_phone
+    return clean_phone
 

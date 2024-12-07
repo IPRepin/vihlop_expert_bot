@@ -35,4 +35,5 @@ async def view_service(callback_query: types.CallbackQuery):
         except Exception as e:
             await callback_query.message.answer("Ошибка при отправке данных.")
             logger.error("Ошибка при отправке фото или текста: %s", e)
-        await callback_query.answer()
+        finally:
+            await callback_query.answer()

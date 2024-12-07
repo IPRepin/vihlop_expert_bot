@@ -8,6 +8,7 @@ from aiogram.exceptions import TelegramNetworkError, TelegramRetryAfter
 
 
 from config import settings
+from handlers.admin_handlers.main_admin_handlers import main_admin_router
 from handlers.commad_handlers import main_router
 from handlers.user_handlers.fsm_application import fsm_app_router
 from handlers.user_handlers.main_handlers import main_user_router
@@ -22,18 +23,26 @@ async def bot_connect():
     bot = Bot(token=settings.TELEGRAM_TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
     dp = Dispatcher(storage=storage)
     dp.include_routers(
-        fsm_app_router,
+        main_admin_router,
         main_user_router,
-        main_router,
+        fsm_app_router,
         service_router,
+        main_router,
     )
     try:
         await bot.delete_webhook(drop_pending_updates=True)
-        await dp.start_polling(bot)
         await register_commands(bot)
+        await dp.start_polling(bot)
+    except TelegramRetryAfter as err:
+        logger.error("Превышен лимит запросов к Telegram. Ожидание %s секунд", err.retry_after)
+        await asyncio.sleep(err.retry_after)
     except TelegramNetworkError as err:
-        logger.error("Ошибка подключения /n %s", err)
+        logger.error("Ошибка подключения: %s", err)
+    except Exception as err:
+        logger.error("Неожиданная ошибка: %s", err)
     finally:
+        await storage.close()
+        await bot.session.close()
         await bot.close()
 
 
@@ -50,4 +59,3 @@ if __name__ == '__main__':
     setup_logging()
     logger = logging.getLogger(setup_logging())
     main()
-

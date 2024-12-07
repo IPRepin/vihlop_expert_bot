@@ -1,9 +1,7 @@
 import pytest
 from unittest.mock import patch, AsyncMock, MagicMock
 from handlers.user_handlers.main_handlers import (
-    get_stocks_list,
-    get_repair_list,
-    get_tuning_list,
+    get_service_list,
     get_chip_tuning_list,
     add_review,
     back_to_main_keyboard
@@ -28,22 +26,24 @@ async def mock_get_services(session, **kwargs):
     return mock_services.get(category_id, [])
 
 @pytest.mark.asyncio
-async def test_get_stocks_list(message_mock):
-    message_mock.text = "Акции"
-    await get_stocks_list(message_mock)
-    assert message_mock.answered
-    assert message_mock.answer_text == "Выберите акцию"
-
-@pytest.mark.asyncio
-async def test_get_repair_list(message_mock):
+async def test_get_service_list_repair(message_mock):
     message_mock.text = "Ремонт"
     with patch('data.db_connect.get_session', side_effect=get_mock_session), \
          patch('data.services_requests.get_services', side_effect=mock_get_services):
-        await get_repair_list(message_mock)
+        await get_service_list(message_mock)
         assert message_mock.answered
         assert message_mock.answer_text == "Выберите услугу ремонта"
         assert message_mock.reply_markup is not None
 
+@pytest.mark.asyncio
+async def test_get_service_list_tuning(message_mock):
+    message_mock.text = "Тюнинг"
+    with patch('data.db_connect.get_session', side_effect=get_mock_session), \
+         patch('data.services_requests.get_services', side_effect=mock_get_services):
+        await get_service_list(message_mock)
+        assert message_mock.answered
+        assert message_mock.answer_text == "Выберите услугу тюнинга"
+        assert message_mock.reply_markup is not None
 
 @pytest.mark.asyncio
 async def test_get_chip_tuning_list(message_mock):

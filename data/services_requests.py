@@ -36,13 +36,14 @@ async def add_service(session: AsyncSession,
         logger.error("Ошибка при добавлении сервиса %s", e)
 
 
-async def get_services(session: AsyncSession, **kwargs) -> Optional[List[Service]]:
+async def get_services(session: AsyncSession, **kwargs) -> List[Service]:
     try:
         stmt = select(Service).filter_by(**kwargs)  # Используем filter_by для удобства
         services = await session.scalars(stmt)
         return services.all()
     except Exception as e:
         logger.error("Ошибка при получении списка услуг %s", e)
+        return []  # Возвращаем пустой список вместо None
 
 
 async def get_service(session: AsyncSession, **kwargs) -> Optional[Service]:
