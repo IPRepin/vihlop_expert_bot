@@ -3,8 +3,9 @@ import logging
 from aiogram import types, Router, F
 
 from keyboards.user_keyboards.main_keyboards import (main_keyboard)
-from keyboards.user_keyboards.user_keyboards import (add_review_keyboard, repair_services_keyboard, 
-                                                   chip_tuning_keyboard, tuning_services_keyboard)
+from keyboards.user_keyboards.user_keyboards import (add_review_keyboard, repair_services_keyboard,
+                                                     chip_tuning_keyboard, tuning_services_keyboard,
+                                                     tuning_stocks_keyboard)
 from utils.logging_settings import setup_logging
 
 main_user_router = Router()
@@ -14,7 +15,7 @@ logger = logging.getLogger(setup_logging())
 
 @main_user_router.message(F.text.contains("Акции"))
 async def get_stocks_list(message: types.Message):
-    await message.answer("Выберите акцию")
+    await message.answer("Выберите акцию", reply_markup=await tuning_stocks_keyboard())
 
 
 @main_user_router.message(F.text.contains("Ремонт") | F.text.contains("Тюнинг"))

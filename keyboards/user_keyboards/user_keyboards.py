@@ -3,6 +3,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from data.db_connect import get_session
 from data.services_requests import get_services
+from data.stock_requests import get_all_stocks
 
 
 async def add_review_keyboard():
@@ -73,4 +74,26 @@ async def service_keyboard():
             ))
     keyboard.add(InlineKeyboardButton(text="Оставить заявку", callback_data="submit_application"))
     keyboard.add(InlineKeyboardButton(text='К выбору услуг', callback_data="back_services"))
+    return keyboard.adjust(1).as_markup()
+
+
+async def tuning_stocks_keyboard():
+    keyboard = InlineKeyboardBuilder()
+    async for session in get_session():
+        all_stocks = await get_all_stocks(session=session)
+        if all_stocks:
+            for stock in all_stocks:
+                keyboard.add(InlineKeyboardButton(text=stock.title, callback_data=f"stock_{stock.id}"))
+    keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
+    return keyboard.adjust(1).as_markup()
+
+
+async def stock_keyboard():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.add(InlineKeyboardButton(
+                text="📲Связаться через телеграм",
+                url="https://t.me/TriBubi",
+            ))
+    keyboard.add(InlineKeyboardButton(text="Записаться по акции", callback_data="submit_application"))
+    keyboard.add(InlineKeyboardButton(text='К списку акций', callback_data="back_stocks"))
     return keyboard.adjust(1).as_markup()

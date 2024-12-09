@@ -8,11 +8,13 @@ from aiogram.exceptions import TelegramNetworkError, TelegramRetryAfter
 
 
 from config import settings
-from handlers.admin_handlers.main_admin_handlers import main_admin_router
+from handlers.admin_handlers.admin_stock_handlers import admin_stocks_router
+from handlers.admin_handlers.application_admin_handlers import application_admin_router
 from handlers.commad_handlers import main_router
 from handlers.user_handlers.fsm_application import fsm_app_router
 from handlers.user_handlers.main_handlers import main_user_router
 from handlers.user_handlers.service_handlers import service_router
+from handlers.user_handlers.stock_user_handlers import stock_user_router
 from utils.commands import register_commands
 from utils.logging_settings import setup_logging
 
@@ -23,8 +25,10 @@ async def bot_connect():
     bot = Bot(token=settings.TELEGRAM_TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
     dp = Dispatcher(storage=storage)
     dp.include_routers(
-        main_admin_router,
+        application_admin_router,
+        admin_stocks_router,
         main_user_router,
+        stock_user_router,
         fsm_app_router,
         service_router,
         main_router,

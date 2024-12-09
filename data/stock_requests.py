@@ -17,7 +17,7 @@ async def add_stock_requests(session: AsyncSession,
                              image: str,
                              description: str,
                              price: str,) -> None:
-    stock = session.scalar(select(Stock).where(Stock.title == title))
+    stock = await session.scalar(select(Stock).where(Stock.title == title))
     if not stock:
         stock = Stock(title=title,
                       image=image,
@@ -31,7 +31,7 @@ async def add_stock_requests(session: AsyncSession,
         logger.debug("Акция уже существует")
 
 
-async def get_stock_requests(session: AsyncSession, **kwargs) -> Optional[Stock]:
+async def get_stock(session: AsyncSession, **kwargs) -> Optional[Stock]:
     try:
         query = select(Stock).filter_by(**kwargs)
         stock = await session.scalar(query)
@@ -67,15 +67,22 @@ async def delete_stock_requests(session: AsyncSession, **kwargs) -> None:
         logger.error("Ошибка при удалении акции: %s", e)
 
 
-async def update_stock(session: AsyncSession, **kwargs) -> None:
+async def update_stock(session: AsyncSession,
+                       stock_id: int,
+                       title: str,
+                       image: str,
+                       description: str,
+                       price: str,
+                       ) -> None:
     try:
-        stock = await session.scalar(select(Stock).where(**kwargs))
+        stock = await session.scalar(select(Stock).where(Stock.id == stock_id))
         if stock:
-            stock.title = kwargs.get('title')
-            stock.description = kwargs.get('description')
-            stock.price = kwargs.get('price')
-            stock.image = kwargs.get('image')
+            stock.title = title
+            stock.description = description
+            stock.price = price
+            stock.image = image
             await session.commit()
+            await session.refresh(stock)
             logger.info("Акция %s обновлена", stock.title)
         else:
             logger.error("Акция не найдена")

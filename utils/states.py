@@ -8,8 +8,37 @@ class StatesAddApplication(StatesGroup):
     NAME = State()
     PHONE = State()
 
+
 class StatesApplication(StatesGroup):
     """
     Модуль определения состояний для проверки заявки
     """
     APPLICATION_ID = State()
+
+
+class StatesAddStocks(StatesGroup):
+    """
+    Модуль определения состояний для добавления акций
+    """
+    TITLE = State()
+    DESCRIPTION = State()
+    IMAGE = State()
+    PRICE = State()
+
+
+class StatesDeleteStocks(StatesGroup):
+    """
+    Модуль определения состояний для удаления акций
+    """
+    ID = State()
+
+
+class StatesEditStocks(StatesGroup):
+    """
+    Модуль определения состояний для изменения акций
+    """
+    ID = State()
+    TITLE = State()
+    DESCRIPTION = State()
+    IMAGE = State()
+    PRICE = State()

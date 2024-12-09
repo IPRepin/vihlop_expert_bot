@@ -6,16 +6,16 @@ from aiogram.fsm.context import FSMContext
 from data.application_requests import get_application_by_filter, update_application
 from data.db_connect import get_session
 from filters.admins_filter import AdminsFilter
-from keyboards.admin_keyboards.other_admin_keyboards import checking_applications
+from keyboards.admin_keyboards.applications_admin_keyboards import checking_applications
 from utils.logging_settings import setup_logging
 from utils.states import StatesApplication
 
-main_admin_router = Router()
+application_admin_router = Router()
 
 logger = logging.getLogger(setup_logging())
 
 
-@main_admin_router.message(
+@application_admin_router.message(
     AdminsFilter(),
     F.text.contains("Проверить заявки")
 )
@@ -36,10 +36,10 @@ async def get_new_application(message: types.Message, state: FSMContext):
         logger.error(e)
 
 
-@main_admin_router.callback_query(AdminsFilter(),
-                                  F.data == "approved",
-                                  StatesApplication.APPLICATION_ID
-                                  )
+@application_admin_router.callback_query(AdminsFilter(),
+                                         F.data == "approved",
+                                         StatesApplication.APPLICATION_ID
+                                         )
 async def approved_application(callback_query: types.CallbackQuery, state: FSMContext):
     await callback_query.answer()
     try:
@@ -47,6 +47,6 @@ async def approved_application(callback_query: types.CallbackQuery, state: FSMCo
             data = await state.get_data()
             await state.clear()
             await update_application(session=session, id=int(data.get("application_id")))
-            await callback_query.message.answer("��Заявка успешно подтверждена!")
+            await callback_query.message.answer("✅Заявка успешно подтверждена!")
     except Exception as e:
         logger.error(e)
