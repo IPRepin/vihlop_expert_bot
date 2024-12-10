@@ -21,7 +21,6 @@ jobs:
       TELEGRAM_LOGS_TOKEN: ${{ secrets.TELEGRAM_LOGS_TOKEN }}
       TG_CHAT_ID_LOGS: ${{ secrets.TG_CHAT_ID_LOGS }}
       LOGS_PATH: ${{ runner.temp }}/logs
-
     services:
       postgres:
         image: postgres:latest
