@@ -17,10 +17,6 @@ jobs:
       POSTGRES_DB: test_db
       POSTGRES_PORT: 5432
       DATABASE_URL_TEST: postgresql+asyncpg://test_user:test_pass@localhost:5432/test_db
-      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-      TELEGRAM_LOGS_TOKEN: ${{ secrets.TELEGRAM_LOGS_TOKEN }}
-      TG_CHAT_ID_LOGS: ${{ secrets.TG_CHAT_ID_LOGS }}
-      LOGS_PATH: ${{ runner.temp }}/logs
     services:
       postgres:
         image: postgres:latest
@@ -56,5 +52,15 @@ jobs:
       - name: Run linters
         run: ruff check
 
+      - name: Create logs directory
+        run: mkdir -p $RUNNER_TEMP/logs
+        env:
+          LOGS_PATH: $RUNNER_TEMP/logs
+
       - name: Run tests
         run: pytest -v tests/
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_LOGS_TOKEN: ${{ secrets.TELEGRAM_LOGS_TOKEN }}
+          TG_CHAT_ID_LOGS: ${{ secrets.TG_CHAT_ID_LOGS }}
+          LOGS_PATH: $RUNNER_TEMP/logs
