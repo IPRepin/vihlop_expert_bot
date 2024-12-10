@@ -17,6 +17,10 @@ jobs:
       POSTGRES_DB: test_db
       POSTGRES_PORT: 5432
       DATABASE_URL_TEST: postgresql+asyncpg://test_user:test_pass@localhost:5432/test_db
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      TELEGRAM_LOGS_TOKEN: ${{ secrets.TELEGRAM_LOGS_TOKEN }}
+      TG_CHAT_ID_LOGS: ${{ secrets.TG_CHAT_ID_LOGS }}
+      LOGS_PATH: "/logs"
 
     services:
       postgres:
