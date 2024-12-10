@@ -25,11 +25,10 @@ async def add_user(session: AsyncSession,
             )
             )
             await session.commit()
-            await session.refresh(user)
-            logger.info("Пользователь %e добавлен", tg_id)
+            logger.info("Пользователь %s добавлен", tg_id)
             return user
         else:
-            logger.info("Пользователь %e найден", tg_id)
+            logger.info("Пользователь %s найден", tg_id)
     except Exception as ex:
         logger.error("Ошибка при добавлении пользователя %e", ex)
 
@@ -37,7 +36,7 @@ async def add_user(session: AsyncSession,
 async def get_user(session: AsyncSession, **kwargs) -> Optional[User]:
     user = await session.scalar(select(User).where(**kwargs))
     if not user:
-        logger.info("Пользователь %e не найден", kwargs.get("user_id"))
+        logger.info("Пользователь %s не найден", kwargs.get("user_id"))
     return user
 
 
@@ -51,6 +50,6 @@ async def delete_user(session: AsyncSession, **kwargs):
     if user:
         await session.delete(user)
         await session.commit()
-        logger.info("Пользователь %e удален", user.user_id)
+        logger.info("Пользователь %s удален", user.user_id)
     else:
-        logger.info("Пользователь %e не найден", kwargs.get("user_id"))
+        logger.info("Пользователь %s не найден", kwargs.get("user_id"))
