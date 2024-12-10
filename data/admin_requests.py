@@ -28,9 +28,7 @@ async def get_admins(session: AsyncSession) -> List[Admin]:
 
 
 async def get_admin(session: AsyncSession, admin_id: int) -> Optional[Admin]:
-    admin = await session.scalar(select(Admin).where(Admin.id == admin_id))
-    if not admin:
-        logger.error('Admin %s не найден', admin_id)
+    admin = await session.scalar(select(Admin).where(Admin.user_id == admin_id))
     return admin
 
 

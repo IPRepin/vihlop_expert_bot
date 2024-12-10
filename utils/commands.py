@@ -8,4 +8,4 @@ async def register_commands(bot: Bot):
             command="start",
             description="Начать работу с ботом.",
         )]
-    return bot.set_my_commands(commands, scope=BotCommandScopeDefault())
+    await bot.set_my_commands(commands, scope=BotCommandScopeDefault())
