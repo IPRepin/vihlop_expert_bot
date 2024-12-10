@@ -20,22 +20,21 @@ jobs:
       TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
       TELEGRAM_LOGS_TOKEN: ${{ secrets.TELEGRAM_LOGS_TOKEN }}
       TG_CHAT_ID_LOGS: ${{ secrets.TG_CHAT_ID_LOGS }}
-      LOGS_PATH: ${{ runner.temp }}/logs
+      LOGS_PATH: ${{ env.RUNNER_TEMP }}/logs
     services:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: ${{ env.POSTGRES_DB }}
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: test_db
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_pass
         ports:
           - 5432:5432
       redis:
-        image: redis
-        env:
-          REDIS_HOST: redis
-          REDIS_PORT: 6379
-          REDIS_URL: ${{ env.REDIS_URL }}
+        image: redis:latest
+        ports:
+          - 6379:6379
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -48,10 +47,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Wait for services to be ready
+        run: |
+          sudo apt-get install -y netcat
+          while ! nc -z localhost 5432; do sleep 1; done
+          while ! nc -z localhost 6379; do sleep 1; done
+
       - name: Run linters
         run: ruff check
 
       - name: Run tests
-        env:
-          DATABASE_URL_TEST: ${{ env.DATABASE_URL_TEST }}
         run: pytest -v tests/
