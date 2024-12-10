@@ -3,6 +3,7 @@ local_settings.py
 .env
 env/
 venv/
+.venv
 .idea
 bot/test.py
 misc/test.py

@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from sqlalchemy.exc import ProgrammingError
 
 from data.db_connect import get_session
-from data.stock_requests import add_stock_requests, delete_stock_requests, get_stock, update_stock
+from data.stock_requests import add_stock_requests, delete_stock_requests, update_stock
 from filters.admins_filter import AdminsFilter
 from keyboards.admin_keyboards.stocks_admin_keyboards import stocks_admin_keyboards, tuning_admin_stocks_keyboard
 from utils.logging_settings import setup_logging
@@ -81,7 +81,7 @@ async def delete_stock(callback_query: types.CallbackQuery, state: FSMContext) -
     try:
         async for session in get_session():
             await delete_stock_requests(session=session, id=int(data.get("stock_id")))
-        await callback_query.message.answer(f"Акция удалена", reply_markup=await stocks_admin_keyboards())
+        await callback_query.message.answer("Акция удалена", reply_markup=await stocks_admin_keyboards())
     except ProgrammingError as e:
         logger.error(e)
 
@@ -97,21 +97,21 @@ async def select_edit_stock(message: types.Message, state: FSMContext) -> None:
 async def edit_title_stock(callback_query: types.CallbackQuery, state: FSMContext) -> None:
     await state.update_data(id_stock=callback_query.data.split("_")[-1])
     await callback_query.answer()
-    await state.set_state(StatesAddStocks.TITLE)
+    await state.set_state(StatesEditStocks.TITLE)
     await callback_query.message.answer("Введите новое название акции")
 
 
 @admin_stocks_router.message(AdminsFilter(), StatesEditStocks.TITLE)
 async def edit_description_stock(message: types.Message, state: FSMContext) -> None:
     await state.update_data(title=message.text)
-    await state.set_state(StatesAddStocks.DESCRIPTION)
+    await state.set_state(StatesEditStocks.DESCRIPTION)
     await message.answer("Введите новое описание акции")
 
 
 @admin_stocks_router.message(AdminsFilter(), StatesEditStocks.DESCRIPTION)
 async def edit_image_stock(message: types.Message, state: FSMContext) -> None:
     await state.update_data(description=message.text)
-    await state.set_state(StatesAddStocks.IMAGE)
+    await state.set_state(StatesEditStocks.IMAGE)
     await message.answer("Добавьте прямую ссылку на изображение.\n"
                          "Прямую ссылку можно получить загрузив изображение на сайт:\n"
                          "https://imgbb.com/")
@@ -120,7 +120,7 @@ async def edit_image_stock(message: types.Message, state: FSMContext) -> None:
 @admin_stocks_router.message(AdminsFilter(), StatesEditStocks.IMAGE)
 async def edit_prices_stock(message: types.Message, state: FSMContext) -> None:
     await state.update_data(image=message.text)
-    await state.set_state(StatesAddStocks.PRICE)
+    await state.set_state(StatesEditStocks.PRICE)
     await message.answer("Введите новую цену услуги по акции")
 
 

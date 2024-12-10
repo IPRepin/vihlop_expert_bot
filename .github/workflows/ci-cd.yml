@@ -1,0 +1,54 @@
+name: Test and Deploy
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    env:
+      REDIS_URL: redis://localhost:6379/0
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_pass
+      POSTGRES_HOST: localhost
+      POSTGRES_DB: test_db
+      POSTGRES_PORT: 5432
+      DATABASE_URL_TEST: postgresql+asyncpg://test_user:test_pass@localhost:5432/test_db
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        ports:
+          - 5432:5432
+      redis:
+        image: redis
+        env:
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
+          REDIS_URL: ${{ env.REDIS_URL }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run linters
+        run: ruff check
+
+      - name: Run tests
+        env:
+          DATABASE_URL_TEST: ${{ env.DATABASE_URL_TEST }}
+        run: pytest -v tests/
