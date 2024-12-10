@@ -64,3 +64,19 @@ jobs:
           TELEGRAM_LOGS_TOKEN: ${{ secrets.TELEGRAM_LOGS_TOKEN }}
           TG_CHAT_ID_LOGS: ${{ secrets.TG_CHAT_ID_LOGS }}
           LOGS_PATH: $RUNNER_TEMP/logs
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/master'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST_NAME }}
+          username: ${{ secrets.SERVER_USER_NAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd /opt/vihlop_expert_bot
+            $ git pull origin master
+            source venv/bin/activate
+            pip install -r requirements.txt
+            alembic upgrade head
+            sudo systemctl restart vihlop_expert_bot
+
