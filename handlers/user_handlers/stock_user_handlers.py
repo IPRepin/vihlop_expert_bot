@@ -4,7 +4,7 @@ from aiogram import F, types,  Router
 
 from data.db_connect import get_session
 from data.stock_requests import get_stock
-from keyboards.user_keyboards.user_keyboards import stock_keyboard, tuning_stocks_keyboard
+from keyboards.user_keyboards.user_keyboards import stock_keyboard, select_stocks_keyboard
 from utils.logging_settings import setup_logging
 
 logger = logging.getLogger(setup_logging())
@@ -36,5 +36,5 @@ async def view_stock(callback_query: types.CallbackQuery):
 
 @stock_user_router.callback_query(F.data == "back_stocks")
 async def back_stocks(callback_query: types.CallbackQuery):
-    await callback_query.message.answer("Выберите акцию", reply_markup=await tuning_stocks_keyboard())
+    await callback_query.message.answer("Выберите акцию", reply_markup=await select_stocks_keyboard())
     await callback_query.answer()

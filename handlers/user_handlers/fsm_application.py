@@ -20,6 +20,7 @@ logger = logging.getLogger(setup_logging())
 async def add_name_application(callback_query: types.CallbackQuery, state: FSMContext):
     await state.set_state(StatesAddApplication.NAME)
     await callback_query.message.answer("Напишите свое имя!")
+    await callback_query.answer()
 
 
 @fsm_app_router.message(StatesAddApplication.NAME)

@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardMarkup, ReplyKeyboardMarkup, InlineKeybo
 from keyboards.user_keyboards.main_keyboards import main_keyboard
 from keyboards.user_keyboards.user_keyboards import (
     add_review_keyboard,
-    repair_services_keyboard,
+    select_repair_services_keyboard,
     chip_tuning_keyboard
 )
 from tests.mocks import get_mock_session, MockService
@@ -30,7 +30,7 @@ async def mock_get_services(*args, **kwargs):
 async def test_repair_services_keyboard():
     with patch('keyboards.user_keyboards.user_keyboards.get_session', return_value=get_mock_session()), \
          patch('keyboards.user_keyboards.user_keyboards.get_services', side_effect=mock_get_services):
-        keyboard = await repair_services_keyboard(category_id=1)
+        keyboard = await select_repair_services_keyboard(category_id=1)
         assert isinstance(keyboard, InlineKeyboardMarkup)
         assert len(keyboard.inline_keyboard) > 0
         

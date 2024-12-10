@@ -3,9 +3,9 @@ import logging
 from aiogram import types, Router, F
 
 from keyboards.user_keyboards.main_keyboards import (main_keyboard)
-from keyboards.user_keyboards.user_keyboards import (add_review_keyboard, repair_services_keyboard,
-                                                     chip_tuning_keyboard, tuning_services_keyboard,
-                                                     tuning_stocks_keyboard)
+from keyboards.user_keyboards.user_keyboards import (add_review_keyboard, select_repair_services_keyboard,
+                                                     chip_tuning_keyboard, select_tuning_services_keyboard,
+                                                     select_stocks_keyboard)
 from utils.logging_settings import setup_logging
 
 main_user_router = Router()
@@ -15,7 +15,7 @@ logger = logging.getLogger(setup_logging())
 
 @main_user_router.message(F.text.contains("Акции"))
 async def get_stocks_list(message: types.Message):
-    await message.answer("Выберите акцию", reply_markup=await tuning_stocks_keyboard())
+    await message.answer("Выберите акцию", reply_markup=await select_stocks_keyboard())
 
 
 @main_user_router.message(F.text.contains("Ремонт") | F.text.contains("Тюнинг"))
@@ -23,11 +23,11 @@ async def get_service_list(message: types.Message):
     if "Ремонт" in message.text:
         category_id = 1
         category_name = "ремонта"
-        keyboard_func = repair_services_keyboard
+        keyboard_func = select_repair_services_keyboard
     elif "Тюнинг" in message.text:
         category_id = 2
         category_name = "тюнинга"
-        keyboard_func = tuning_services_keyboard
+        keyboard_func = select_tuning_services_keyboard
     else:
         return  # Если текст не совпадает, выходим из функции
 

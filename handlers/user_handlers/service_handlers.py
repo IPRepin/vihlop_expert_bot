@@ -4,7 +4,7 @@ from aiogram import F, types,  Router
 
 from data.db_connect import get_session
 from data.services_requests import get_service
-from keyboards.user_keyboards.user_keyboards import service_keyboard
+from keyboards.user_keyboards.user_keyboards import service_keyboard, select_stocks_keyboard
 from utils.logging_settings import setup_logging
 
 service_router = Router()
@@ -37,3 +37,9 @@ async def view_service(callback_query: types.CallbackQuery):
             logger.error("Ошибка при отправке фото или текста: %s", e)
         finally:
             await callback_query.answer()
+
+
+@service_router.callback_query(F.data == "back_services")
+async def back_services(callback_query: types.CallbackQuery):
+    await callback_query.message.answer("Выберете услугу", reply_markup=await select_stocks_keyboard())
+    await callback_query.answer()

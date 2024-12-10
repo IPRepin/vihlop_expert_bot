@@ -7,6 +7,9 @@ from data.stock_requests import get_all_stocks
 
 
 async def add_review_keyboard():
+    """
+    Клавиатура для добавления отзыва
+    """
     review_clinic_keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
@@ -34,7 +37,10 @@ async def add_review_keyboard():
     return review_clinic_keyboard
 
 
-async def repair_services_keyboard(category_id: int):
+async def select_repair_services_keyboard(category_id: int):
+    """
+    Клавиатура для выбора услуги ремонта
+    """
     keyboard = InlineKeyboardBuilder()
     async for session in get_session():
         all_services = await get_services(session=session, category_id=category_id)
@@ -45,7 +51,10 @@ async def repair_services_keyboard(category_id: int):
     return keyboard.adjust(1).as_markup()
 
 
-async def tuning_services_keyboard(category_id: int):
+async def select_tuning_services_keyboard(category_id: int):
+    """
+    Клавиатура для выбора услуги тюнинга
+    """
     keyboard = InlineKeyboardBuilder()
     async for session in get_session():
         all_services = await get_services(session=session, category_id=category_id)
@@ -57,6 +66,9 @@ async def tuning_services_keyboard(category_id: int):
 
 
 async def chip_tuning_keyboard():
+    """
+    Клавиатура для выбора услуги чип-тюнинга
+    """
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(
                 text="📲Связаться через телеграм",
@@ -67,17 +79,23 @@ async def chip_tuning_keyboard():
 
 
 async def service_keyboard():
+    """
+    Клавиатура  'Оставить заявку'
+    """
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(
                 text="📲Связаться через телеграм",
                 url="https://t.me/TriBubi",
             ))
     keyboard.add(InlineKeyboardButton(text="Оставить заявку", callback_data="submit_application"))
-    keyboard.add(InlineKeyboardButton(text='К выбору услуг', callback_data="back_services"))
+    keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
 
 
-async def tuning_stocks_keyboard():
+async def select_stocks_keyboard():
+    """
+    Клавиатура для выбора акции
+    """
     keyboard = InlineKeyboardBuilder()
     async for session in get_session():
         all_stocks = await get_all_stocks(session=session)
@@ -89,6 +107,9 @@ async def tuning_stocks_keyboard():
 
 
 async def stock_keyboard():
+    """
+    Клавиатура для записи на акцию
+    """
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(
                 text="📲Связаться через телеграм",
