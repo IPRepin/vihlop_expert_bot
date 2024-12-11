@@ -72,8 +72,10 @@ jobs:
           host: ${{ secrets.SERVER_HOST_NAME }}
           username: ${{ secrets.SERVER_USER_NAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          timeout: 60s
+          timeout: 40s
           script: |
+            echo "Attempting to connect to server..."
+            ssh -v ${{ secrets.SERVER_USER_NAME }}@${{ secrets.SERVER_HOST_NAME }} exit
             cd /opt/vihlop_expert_bot
             $ git pull origin master
             source venv/bin/activate
