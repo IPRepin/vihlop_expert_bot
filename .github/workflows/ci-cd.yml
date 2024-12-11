@@ -65,6 +65,9 @@ jobs:
           TG_CHAT_ID_LOGS: ${{ secrets.TG_CHAT_ID_LOGS }}
           LOGS_PATH: $RUNNER_TEMP/logs
 
+      - name: Test server connection
+        run: ping -c 4 ${{ secrets.SERVER_HOST_NAME }}
+
       - name: Deploy
         if: github.ref == 'refs/heads/master'
         uses: appleboy/ssh-action@master
@@ -72,8 +75,10 @@ jobs:
           host: ${{ secrets.SERVER_HOST_NAME }}
           username: ${{ secrets.SERVER_USER_NAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          timeout: 60s
+          timeout: 40s
           script: |
+            echo "Attempting to connect to server..."
+            ssh -v ${{ secrets.SERVER_USER_NAME }}@${{ secrets.SERVER_HOST_NAME }} exit
             cd /opt/vihlop_expert_bot
             $ git pull origin master
             source venv/bin/activate
