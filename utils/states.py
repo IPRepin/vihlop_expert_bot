@@ -42,3 +42,33 @@ class StatesEditStocks(StatesGroup):
     DESCRIPTION = State()
     IMAGE = State()
     PRICE = State()
+
+
+class StatesAddService(StatesGroup):
+    """
+    Модуль определения состояний для добавления услуг
+    """
+    CATEGORY = State()
+    TITLE = State()
+    PRICE = State()
+    IMAGE = State()
+    DESCRIPTION = State()
+
+class StatesEditService(StatesGroup):
+    """
+    Модуль определения состояний для изменения услуг
+    """
+    CATEGORY = State()
+    ID_SERVICE = State()
+    TITLE = State()
+    PRICE = State()
+    IMAGE = State()
+    DESCRIPTION = State()
+
+class StatesDeleteService(StatesGroup):
+    """
+    Модуль определения состояний для удаления услуг
+    """
+    CATEGORY = State()
+    ID_SERVICE = State()
+
