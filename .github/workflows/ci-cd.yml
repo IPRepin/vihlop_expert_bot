@@ -72,6 +72,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST_NAME }}
           username: ${{ secrets.SERVER_USER_NAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
+          timeout: 60s
           script: |
             cd /opt/vihlop_expert_bot
             $ git pull origin master
