@@ -61,7 +61,7 @@ async def get_service(session: AsyncSession, **kwargs) -> Optional[Service]:
 
 async def delete_service(session: AsyncSession, **kwargs) -> None:
     try:
-        service = await session.scalar(select(Service).where(**kwargs))
+        service = await session.scalar(select(Service).filter_by(**kwargs))
         if service:
             await session.delete(service)
             await session.commit()
@@ -72,9 +72,9 @@ async def delete_service(session: AsyncSession, **kwargs) -> None:
         logger.error("Ошибка при удалении услуги %s", e)
 
 
-async def update_service(session: AsyncSession, **kwargs) -> None:
+async def update_service(session: AsyncSession, id_service: int, **kwargs) -> None:
     try:
-        service = await session.scalar(select(Service).where(**kwargs))
+        service = await session.scalar(select(Service).filter_by(id=id_service))
         if service:
             service.title = kwargs.get('title')
             service.description = kwargs.get('description')

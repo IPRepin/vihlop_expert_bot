@@ -7,7 +7,7 @@ from sqlalchemy.exc import ProgrammingError
 from data.db_connect import get_session
 from data.stock_requests import add_stock_requests, delete_stock_requests, update_stock
 from filters.admins_filter import AdminsFilter
-from keyboards.admin_keyboards.stocks_admin_keyboards import stocks_admin_keyboards, tuning_admin_stocks_keyboard
+from keyboards.admin_keyboards.stocks_admin_keyboards import stocks_admin_keyboards, select_admin_stocks_keyboard
 from utils.logging_settings import setup_logging
 from utils.states import StatesAddStocks, StatesDeleteStocks, StatesEditStocks
 
@@ -69,7 +69,7 @@ async def add_new_stock(message: types.Message, state: FSMContext) -> None:
 async def select_delete_stock(message: types.Message, state: FSMContext) -> None:
     await state.set_state(StatesDeleteStocks.ID)
     await message.answer("Выберете акцию для удаления:",
-                         reply_markup=await tuning_admin_stocks_keyboard())
+                         reply_markup=await select_admin_stocks_keyboard())
 
 
 @admin_stocks_router.callback_query(AdminsFilter(), StatesDeleteStocks.ID)
@@ -90,7 +90,7 @@ async def delete_stock(callback_query: types.CallbackQuery, state: FSMContext) -
 async def select_edit_stock(message: types.Message, state: FSMContext) -> None:
     await state.set_state(StatesEditStocks.ID)
     await message.answer("Выберете акцию для редактирования:",
-                         reply_markup=await tuning_admin_stocks_keyboard())
+                         reply_markup=await select_admin_stocks_keyboard())
 
 
 @admin_stocks_router.callback_query(AdminsFilter(), StatesEditStocks.ID)

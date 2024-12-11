@@ -21,7 +21,7 @@ async def stocks_admin_keyboards() -> ReplyKeyboardMarkup:
     return main_markup
 
 
-async def tuning_admin_stocks_keyboard():
+async def select_admin_stocks_keyboard():
     keyboard = InlineKeyboardBuilder()
     async for session in get_session():
         all_stocks = await get_all_stocks(session=session)
