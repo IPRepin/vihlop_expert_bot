@@ -65,9 +65,6 @@ jobs:
           TG_CHAT_ID_LOGS: ${{ secrets.TG_CHAT_ID_LOGS }}
           LOGS_PATH: $RUNNER_TEMP/logs
 
-      - name: Test server connection
-        run: ping -c 4 ${{ secrets.SERVER_HOST_NAME }}
-
       - name: Deploy
         if: github.ref == 'refs/heads/master'
         uses: appleboy/ssh-action@master
