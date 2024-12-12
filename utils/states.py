@@ -54,6 +54,7 @@ class StatesAddService(StatesGroup):
     IMAGE = State()
     DESCRIPTION = State()
 
+
 class StatesEditService(StatesGroup):
     """
     Модуль определения состояний для изменения услуг
@@ -65,6 +66,7 @@ class StatesEditService(StatesGroup):
     IMAGE = State()
     DESCRIPTION = State()
 
+
 class StatesDeleteService(StatesGroup):
     """
     Модуль определения состояний для удаления услуг
@@ -72,3 +74,13 @@ class StatesDeleteService(StatesGroup):
     CATEGORY = State()
     ID_SERVICE = State()
 
+
+class MailingState(StatesGroup):
+    """
+    Модуль определения состояний для отправки рассылки
+    """
+    MAIL_TEXT = State()
+    ADD_MEDIA = State()
+    ADD_BUTTON = State()
+    BUTTON_TEXT = State()
+    BUTTON_URL = State()

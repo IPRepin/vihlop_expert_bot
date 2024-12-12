@@ -38,15 +38,13 @@ async def add_description_stock(message: types.Message, state: FSMContext) -> No
 @admin_stocks_router.message(AdminsFilter(), StatesAddStocks.DESCRIPTION)
 async def add_image_stock(message: types.Message, state: FSMContext) -> None:
     await state.update_data(description=message.text)
-    await message.answer("Добавьте прямую ссылку на изображение.\n"
-                         "Прямую ссылку можно получить загрузив изображение на сайт:\n"
-                         "https://imgbb.com/")
+    await message.answer("Добавьте изображение")
     await state.set_state(StatesAddStocks.IMAGE)
 
 
-@admin_stocks_router.message(AdminsFilter(), StatesAddStocks.IMAGE)
+@admin_stocks_router.message(AdminsFilter(), StatesAddStocks.IMAGE, F.photo)
 async def add_prices_stock(message: types.Message, state: FSMContext) -> None:
-    await state.update_data(image=message.text)
+    await state.update_data(image=message.photo[-1].file_id)
     await message.answer("Введите цену услуги по акции")
     await state.set_state(StatesAddStocks.PRICE)
 
@@ -112,14 +110,12 @@ async def edit_description_stock(message: types.Message, state: FSMContext) -> N
 async def edit_image_stock(message: types.Message, state: FSMContext) -> None:
     await state.update_data(description=message.text)
     await state.set_state(StatesEditStocks.IMAGE)
-    await message.answer("Добавьте прямую ссылку на изображение.\n"
-                         "Прямую ссылку можно получить загрузив изображение на сайт:\n"
-                         "https://imgbb.com/")
+    await message.answer("Добавьте изображение.")
 
 
-@admin_stocks_router.message(AdminsFilter(), StatesEditStocks.IMAGE)
+@admin_stocks_router.message(AdminsFilter(), StatesEditStocks.IMAGE, F.photo)
 async def edit_prices_stock(message: types.Message, state: FSMContext) -> None:
-    await state.update_data(image=message.text)
+    await state.update_data(image=message.photo[-1].file_id)
     await state.set_state(StatesEditStocks.PRICE)
     await message.answer("Введите новую цену услуги по акции")
 
@@ -139,3 +135,13 @@ async def edit_new_stock(message: types.Message, state: FSMContext) -> None:
             price=data.get("price")
         )
     await message.answer(f"Акция {data.get('title')} изменена", reply_markup=await stocks_admin_keyboards())
+
+
+@admin_stocks_router.message(AdminsFilter(), StatesAddStocks.IMAGE, ~F.photo)
+async def incorrect_service_add_photo(message: types.Message, state: FSMContext) -> None:
+    await message.answer("Нужно загрузить фотографию!")
+
+
+@admin_stocks_router.message(AdminsFilter(), StatesEditStocks.IMAGE, ~F.photo)
+async def incorrect_service_edit_photo(message: types.Message, state: FSMContext) -> None:
+    await message.answer("Нужно загрузить фотографию!")
