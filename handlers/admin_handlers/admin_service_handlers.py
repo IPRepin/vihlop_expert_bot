@@ -47,15 +47,13 @@ async def add_description_service_handler(message: types.Message, state: FSMCont
 @admin_service_router.message(AdminsFilter(), StatesAddService.DESCRIPTION)
 async def add_image_service_handler(message: types.Message, state: FSMContext):
     await state.update_data(description=message.text)
-    await message.answer("Добавьте прямую ссылку на изображение.\n"
-                         "Прямую ссылку можно получить загрузив изображение на сайт:\n"
-                         "https://imgbb.com/")
+    await message.answer("Добавьте изображение")
     await state.set_state(StatesAddService.IMAGE)
 
 
-@admin_service_router.message(AdminsFilter(), StatesAddService.IMAGE)
+@admin_service_router.message(AdminsFilter(), StatesAddService.IMAGE, F.photo)
 async def add_product_service_handler(message: types.Message, state: FSMContext):
-    await state.update_data(image=message.text)
+    await state.update_data(image=message.photo[-1].file_id)
     await state.set_state(StatesAddService.PRICE)
     await message.answer("Введите стоимость услуги")
 
@@ -130,7 +128,6 @@ async def edit_service_select_service(callback_query: types.CallbackQuery, state
 @admin_service_router.callback_query(AdminsFilter(), StatesEditService.ID_SERVICE)
 async def edit_service_title(callback_query: types.CallbackQuery, state: FSMContext):
     service_id = callback_query.data.split("_")[-1]
-    print(service_id)
     await state.update_data(service_id=service_id)
     await callback_query.answer()
     await state.set_state(StatesEditService.TITLE)
@@ -148,14 +145,12 @@ async def edit_service_description(message: types.Message, state: FSMContext):
 async def edit_service_image(message: types.Message, state: FSMContext):
     await state.update_data(description=message.text)
     await state.set_state(StatesEditService.IMAGE)
-    await message.answer("Добавьте прямую ссылку на изображение.\n"
-                         "Прямую ссылку можно получить загрузив изображение на сайт:\n"
-                         "https://imgbb.com/")
+    await message.answer("Добавьте изображение")
 
 
-@admin_service_router.message(AdminsFilter(), StatesEditService.IMAGE)
+@admin_service_router.message(AdminsFilter(), StatesEditService.IMAGE, F.photo)
 async def edit_service_price(message: types.Message, state: FSMContext):
-    await state.update_data(image=message.text)
+    await state.update_data(image=message.photo[-1].file_id)
     await state.set_state(StatesEditService.PRICE)
     await message.answer("Введите новую стоимость услуги")
 
@@ -176,3 +171,13 @@ async def edit_service(message: types.Message, state: FSMContext):
             category_id=int(data.get("category")),
         )
     await message.answer(f"Услуга {data.get('title')} изменена", reply_markup=await service_admin_keyboards())
+
+
+@admin_service_router.message(AdminsFilter(), StatesEditService.IMAGE, ~F.photo)
+async def incorrect_service_edit_photo(message: types.Message, state: FSMContext) -> None:
+    await message.answer("Нужно загрузить фотографию!")
+
+
+@admin_service_router.message(AdminsFilter(), StatesAddService.IMAGE, ~F.photo)
+async def incorrect_service_add_photo(message: types.Message, state: FSMContext) -> None:
+    await message.answer("Нужно загрузить фотографию!")
