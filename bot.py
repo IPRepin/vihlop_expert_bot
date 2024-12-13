@@ -12,6 +12,7 @@ from handlers.admin_handlers.admin_mailing_hendlers import admin_mailing_router
 from handlers.admin_handlers.admin_service_handlers import admin_service_router
 from handlers.admin_handlers.admin_stock_handlers import admin_stocks_router
 from handlers.admin_handlers.application_admin_handlers import application_admin_router
+from handlers.admin_handlers.download_hendlers import download_router
 from handlers.admin_handlers.other_admin_handlers import other_admin_router
 from handlers.commad_handlers import main_router
 from handlers.user_handlers.fsm_application import fsm_app_router
@@ -28,6 +29,7 @@ async def bot_connect():
     bot = Bot(token=settings.TELEGRAM_TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
     dp = Dispatcher(storage=storage)
     dp.include_routers(
+        download_router,
         application_admin_router,
         admin_stocks_router,
         admin_service_router,
