@@ -117,4 +117,5 @@ async def stock_keyboard():
             ))
     keyboard.add(InlineKeyboardButton(text="Записаться по акции", callback_data="submit_application"))
     keyboard.add(InlineKeyboardButton(text='К списку акций', callback_data="back_stocks"))
+    keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
