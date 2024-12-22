@@ -4,7 +4,7 @@ from aiogram import F, types,  Router
 
 from data.db_connect import get_session
 from data.services_requests import get_service
-from keyboards.user_keyboards.user_keyboards import service_keyboard, select_stocks_keyboard, \
+from keyboards.user_keyboards.user_keyboards import service_keyboard, \
     select_repair_services_keyboard, select_tuning_services_keyboard
 from utils.logging_settings import setup_logging
 
