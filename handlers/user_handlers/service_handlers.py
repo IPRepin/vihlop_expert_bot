@@ -4,7 +4,8 @@ from aiogram import F, types,  Router
 
 from data.db_connect import get_session
 from data.services_requests import get_service
-from keyboards.user_keyboards.user_keyboards import service_keyboard, select_stocks_keyboard
+from keyboards.user_keyboards.user_keyboards import service_keyboard, select_stocks_keyboard, \
+    select_repair_services_keyboard, select_tuning_services_keyboard
 from utils.logging_settings import setup_logging
 
 service_router = Router()
@@ -39,7 +40,18 @@ async def view_service(callback_query: types.CallbackQuery):
             await callback_query.answer()
 
 
-@service_router.callback_query(F.data == "back_services")
+@service_router.callback_query(F.data.startswith("back_services_"))
 async def back_services(callback_query: types.CallbackQuery):
-    await callback_query.message.answer("Выберете услугу", reply_markup=await select_stocks_keyboard())
+    category_id = int(callback_query.data.split("_")[-1])
+    if category_id == 1:
+        category_name = "ремонта"
+        keyboard_func = select_repair_services_keyboard
+    elif category_id == 2:
+        category_name = "тюнинга"
+        keyboard_func = select_tuning_services_keyboard
+    else:
+        return  # Если текст не совпадает, выходим из функции
+
+    await callback_query.message.answer(f"Выберите услугу {category_name}",
+                         reply_markup=await keyboard_func(category_id=category_id))
     await callback_query.answer()
