@@ -27,9 +27,9 @@ async def view_service(callback_query: types.CallbackQuery):
                 caption=f"{service.title}\n"
                         f"Описание: {service.description}\n"
                         f"Цена: {service.price}\n"
-                        f"Узнать подробнее об услуге '{service.title}', записаться в сервис на "
+                        f"Вы можете записаться в сервис по услуге '{service.title}', на "
                         f"бесплатную диагностику или просто "
-                        f"напишите нам в Телеграм!",
+                        f"напишите нам в Телеграм, и мы ответим на все ваши вопросы!",
                 reply_markup=await service_keyboard()
             )
         except Exception as e:
