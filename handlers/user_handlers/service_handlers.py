@@ -31,7 +31,7 @@ async def view_service(callback_query: types.CallbackQuery):
                         f"Вы можете записаться в сервис по услуге '{service.title}', на "
                         f"бесплатную диагностику или просто "
                         f"напишите нам в Телеграм, и мы ответим на все ваши вопросы!",
-                reply_markup=await service_keyboard()
+                reply_markup=await service_keyboard(category_id=service.category_id)
             )
         except Exception as e:
             await callback_query.message.answer("Ошибка при отправке данных.")
