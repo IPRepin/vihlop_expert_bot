@@ -3,7 +3,7 @@ import logging
 from sqlalchemy.ext.asyncio import AsyncSession
 from data.models import Admin
 
-from sqlalchemy import select, Select
+from sqlalchemy import select
 
 from typing import Optional, List
 
