@@ -78,7 +78,7 @@ async def chip_tuning_keyboard():
     return keyboard.adjust(1).as_markup()
 
 
-async def service_keyboard():
+async def service_keyboard(category_id: int):
     """
     Клавиатура  'Оставить заявку'
     """
@@ -88,6 +88,7 @@ async def service_keyboard():
                 url="https://t.me/TriBubi",
             ))
     keyboard.add(InlineKeyboardButton(text="Оставить заявку", callback_data="submit_application"))
+    keyboard.add(InlineKeyboardButton(text='К списку акций', callback_data=f"back_services_{category_id}"))
     keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
 
