@@ -37,7 +37,10 @@ async def get_service_list(message: types.Message):
 
 @main_user_router.message(F.text.contains("Чип"))
 async def get_chip_tuning_list(message: types.Message):
-    await message.answer("Небольшое описание услуги, приглашение задать вопросы в телеграм",
+    await message.answer("Чип тюнинг авто. Прибавь мощности своему автомобилю за счёт программных настроек ЭБУ. "
+                         "Мы увеличиваем мощность как на дизельных, "
+                         "так и на турбированных авто. Можем зашить Отстрелы (Попкорн). В этом месяце скидка 15%!\n"
+                         "Задай вопрос по чип тюнингу в Телеграм!",
                          reply_markup=await chip_tuning_keyboard())
 
 

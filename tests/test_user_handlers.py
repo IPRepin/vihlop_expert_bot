@@ -50,7 +50,7 @@ async def test_get_chip_tuning_list(message_mock):
     message_mock.text = "Чип"
     await get_chip_tuning_list(message_mock)
     assert message_mock.answered
-    assert "Небольшое описание услуги" in message_mock.answer_text
+    assert "Чип тюнинг авто" in message_mock.answer_text
     assert message_mock.reply_markup is not None
 
 @pytest.mark.asyncio
