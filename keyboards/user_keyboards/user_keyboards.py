@@ -72,7 +72,7 @@ async def chip_tuning_keyboard():
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(
                 text="📲Связаться через телеграм",
-                url="https://t.me/TriBubi",
+                url="https://t.me/VeXhaust",
             ))
     keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
