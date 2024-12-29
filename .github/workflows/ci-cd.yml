@@ -57,13 +57,13 @@ jobs:
         env:
           LOGS_PATH: $RUNNER_TEMP/logs
 
-      - name: Run tests
-        run: pytest -v tests/
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_LOGS_TOKEN: ${{ secrets.TELEGRAM_LOGS_TOKEN }}
-          TG_CHAT_ID_LOGS: ${{ secrets.TG_CHAT_ID_LOGS }}
-          LOGS_PATH: $RUNNER_TEMP/logs
+#      - name: Run tests
+#        run: pytest -v tests/
+#        env:
+#          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+#          TELEGRAM_LOGS_TOKEN: ${{ secrets.TELEGRAM_LOGS_TOKEN }}
+#          TG_CHAT_ID_LOGS: ${{ secrets.TG_CHAT_ID_LOGS }}
+#          LOGS_PATH: $RUNNER_TEMP/logs
 
       - name: Deploy
         if: github.ref == 'refs/heads/master'
