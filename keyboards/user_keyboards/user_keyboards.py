@@ -30,7 +30,7 @@ async def add_review_keyboard():
                     web_app=WebAppInfo(url="https://www.avito.ru/brands/8f51494e77196e4becadd0029507402d?src=sharing")
                 )
             ],
-            [InlineKeyboardButton(text="На главное меню",
+            [InlineKeyboardButton(text="➡️На главное меню⬅️",
                                   callback_data="main_keyboard")],
         ]
     )
@@ -47,7 +47,7 @@ async def select_repair_services_keyboard(category_id: int):
         if all_services:  # Проверяем, что список услуг не None
             for service in all_services:
                 keyboard.add(InlineKeyboardButton(text=service.title, callback_data=f"service_{service.id}"))
-    keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
+    keyboard.add(InlineKeyboardButton(text='➡️На главное меню⬅️', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
 
 
@@ -61,7 +61,7 @@ async def select_tuning_services_keyboard(category_id: int):
         if all_services:  # Проверяем, что список услуг не None
             for service in all_services:
                 keyboard.add(InlineKeyboardButton(text=service.title, callback_data=f"service_{service.id}"))
-    keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
+    keyboard.add(InlineKeyboardButton(text='➡️На главное меню⬅️', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
 
 
@@ -74,7 +74,7 @@ async def chip_tuning_keyboard():
                 text="📲Связаться через телеграм",
                 url="https://t.me/VeXhaust",
             ))
-    keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
+    keyboard.add(InlineKeyboardButton(text='➡️На главное меню⬅️', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
 
 
@@ -87,9 +87,9 @@ async def service_keyboard(category_id: int):
                 text="📲Связаться через телеграм",
                 url="https://t.me/TriBubi",
             ))
-    keyboard.add(InlineKeyboardButton(text="Оставить заявку", callback_data="submit_application"))
-    keyboard.add(InlineKeyboardButton(text='К списку услуг', callback_data=f"back_services_{category_id}"))
-    keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
+    keyboard.add(InlineKeyboardButton(text="Записаться", callback_data="submit_application"))
+    keyboard.add(InlineKeyboardButton(text='➡️Предыдущее меню⬅️', callback_data=f"back_services_{category_id}"))
+    keyboard.add(InlineKeyboardButton(text='➡️На главное меню⬅️', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
 
 
@@ -103,7 +103,7 @@ async def select_stocks_keyboard():
         if all_stocks:
             for stock in all_stocks:
                 keyboard.add(InlineKeyboardButton(text=stock.title, callback_data=f"stock_{stock.id}"))
-    keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
+    keyboard.add(InlineKeyboardButton(text='➡️На главное меню⬅️', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
 
 
@@ -117,6 +117,6 @@ async def stock_keyboard():
                 url="https://t.me/TriBubi",
             ))
     keyboard.add(InlineKeyboardButton(text="Записаться по акции", callback_data="submit_application"))
-    keyboard.add(InlineKeyboardButton(text='К списку акций', callback_data="back_stocks"))
-    keyboard.add(InlineKeyboardButton(text='На главное меню', callback_data="main_keyboard"))
+    keyboard.add(InlineKeyboardButton(text='➡️Предыдущее меню⬅️', callback_data="back_stocks"))
+    keyboard.add(InlineKeyboardButton(text='➡️На главное меню⬅️', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
