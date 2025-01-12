@@ -8,7 +8,7 @@ async def main_keyboard():
             KeyboardButton(text='Оставить отзыв')
         ],
         [
-            KeyboardButton(text='Тюнинг выхлопной системы'),
+            KeyboardButton(text='Тюнинг выхлопной системы!'),
         ],
         [
             KeyboardButton(text='Ремонт глушителя'),

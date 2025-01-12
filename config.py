@@ -18,6 +18,8 @@ class Settings(BaseSettings):
 
     REDIS_URL: str
 
+    LEVEL_LOGS: str
+
     LOGS_PATH: str
 
     @computed_field
