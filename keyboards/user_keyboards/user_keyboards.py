@@ -71,7 +71,7 @@ async def chip_tuning_keyboard():
     """
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(
-                text="📲Связаться через телеграм",
+                text="✏️Напишите нам",
                 url="https://t.me/VeXhaust",
             ))
     keyboard.add(InlineKeyboardButton(text='➡️На главное меню⬅️', callback_data="main_keyboard"))
@@ -84,10 +84,10 @@ async def service_keyboard(category_id: int):
     """
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(
-                text="📲Связаться через телеграм",
+                text="✏️Напишите нам",
                 url="https://t.me/TriBubi",
             ))
-    keyboard.add(InlineKeyboardButton(text="Записаться", callback_data="submit_application"))
+    keyboard.add(InlineKeyboardButton(text="✏️Записаться на Тюнинг", callback_data="submit_application"))
     keyboard.add(InlineKeyboardButton(text='➡️Предыдущее меню⬅️', callback_data=f"back_services_{category_id}"))
     keyboard.add(InlineKeyboardButton(text='➡️На главное меню⬅️', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
@@ -113,7 +113,7 @@ async def stock_keyboard():
     """
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(
-                text="📲Связаться через телеграм",
+                text="✏️Напишите нам",
                 url="https://t.me/TriBubi",
             ))
     keyboard.add(InlineKeyboardButton(text="Записаться по акции", callback_data="submit_application"))
