@@ -26,11 +26,9 @@ async def view_service(callback_query: types.CallbackQuery):
             await callback_query.message.answer_photo(
                 photo=service.image,
                 caption=f"{service.title}\n"
-                        f"Описание: {service.description}\n"
-                        f"Цена: {service.price}\n"
-                        f"Вы можете записаться в сервис по услуге '{service.title}', на "
-                        f"бесплатную диагностику или просто "
-                        f"напишите нам в Телеграм, и мы ответим на все ваши вопросы!",
+                        f"Описание: {service.description}\n\n"
+                        f"Цена: {service.price}\n\n"
+                        f"Запишитесь сейчас и мы зафиксируем за вами скидку 15%",
                 reply_markup=await service_keyboard(category_id=service.category_id)
             )
         except Exception as e:

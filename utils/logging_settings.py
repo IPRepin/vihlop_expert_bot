@@ -29,7 +29,15 @@ class TelegramBotHandler(Handler):
 
 
 def setup_logging():
-    logging.basicConfig(level=logging.ERROR)
+    level_logs = settings.LEVEL_LOGS
+    if level_logs == 'DEBUG':
+        logging.basicConfig(level=logging.DEBUG)
+    elif level_logs == 'INFO':
+        logging.basicConfig(level=logging.INFO)
+    elif level_logs == 'WARNING':
+        logging.basicConfig(level=logging.WARNING)
+    elif level_logs == 'ERROR':
+        logging.basicConfig(level=logging.ERROR)
     logs_path = settings.LOGS_PATH
 
     if not logs_path:
