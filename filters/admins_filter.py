@@ -11,6 +11,8 @@ from data.db_connect import get_session
 
 from utils.logging_settings import setup_logging
 
+from config import settings
+
 logger = logging.getLogger(setup_logging())
 
 
@@ -34,18 +36,22 @@ async def get_random_admin():
     try:
         async for session in get_session():
             try:
-                # Получаем всех администраторов из базы
-                admins_list = []
-                admins = await get_admins(session)
-                if not admins:
-                    logger.warning("Список администраторов пуст.")
-                    return None
+                if settings.ADMINS_LIST:
+                    # Получаем всех администраторов из базы
+                    admins_list = []
+                    admins = await get_admins(session)
+                    if not admins:
+                        logger.warning("Список администраторов пуст.")
+                        return None
 
-                for admin in admins:
-                    admins_list.append(int(admin.user_id))
+                    for admin in admins:
+                        admins_list.append(int(admin.user_id))
 
-                # Выбираем случайного администратора
-                return random.choice(admins_list)
+                    # Выбираем случайного администратора
+                    return random.choice(admins_list)
+                else:
+                    admin = await get_admin(session)
+                    return admin.user_id
             except SQLAlchemyError as e:
                 logger.error(f"Ошибка при получении администраторов: {e}")
                 return None
