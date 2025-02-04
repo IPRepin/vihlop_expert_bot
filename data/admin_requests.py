@@ -9,8 +9,6 @@ from typing import Optional, List
 
 from utils.logging_settings import setup_logging
 
-from config import settings
-
 logger = logging.getLogger(setup_logging())
 
 
@@ -29,8 +27,7 @@ async def get_admins(session: AsyncSession) -> List[Admin]:
     return admins.all()
 
 
-async def get_admin(session: AsyncSession) -> Optional[Admin]:
-    admin_id = settings.ADMIN_MESSAGE_ID
+async def get_admin(session: AsyncSession, admin_id: int) -> Optional[Admin]:
     admin = await session.scalar(select(Admin).where(Admin.user_id == admin_id))
     return admin
 
