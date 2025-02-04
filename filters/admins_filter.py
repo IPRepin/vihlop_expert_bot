@@ -50,8 +50,8 @@ async def get_random_admin():
                     # Выбираем случайного администратора
                     return random.choice(admins_list)
                 else:
-                    admin = await get_admin(session)
-                    return admin.user_id
+                    admin = settings.ADMIN_MESSAGE_ID
+                    return admin
             except SQLAlchemyError as e:
                 logger.error(f"Ошибка при получении администраторов: {e}")
                 return None
