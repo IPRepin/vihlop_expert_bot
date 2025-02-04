@@ -19,8 +19,10 @@ class Settings(BaseSettings):
     REDIS_URL: str
 
     LEVEL_LOGS: str
-
     LOGS_PATH: str
+
+    ADMIN_MESSAGE_ID: int
+    ADMINS_LIST: bool
 
     @computed_field
     @property
