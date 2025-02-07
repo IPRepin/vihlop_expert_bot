@@ -24,6 +24,11 @@ class Settings(BaseSettings):
     ADMIN_MESSAGE_ID: int
     ADMINS_LIST: bool
 
+    SUPPORT_URL: str
+    YANDEX_MAP_URL: str
+    VK_URL: str
+    AVITO_URL: str
+
     @computed_field
     @property
     def asyncpg_url(self) -> PostgresDsn:
