@@ -5,6 +5,8 @@ from data.db_connect import get_session
 from data.services_requests import get_services
 from data.stock_requests import get_all_stocks
 
+from config import settings
+
 
 async def add_review_keyboard():
     """
@@ -15,19 +17,19 @@ async def add_review_keyboard():
             [
                 InlineKeyboardButton(
                     text="💬Оставить отзыв на Яндекс Картах",
-                    web_app=WebAppInfo(url="https://clck.ru/3F2E4p")
+                    web_app=WebAppInfo(url=settings.YANDEX_MAP_URL)
                 )
             ],
             [
                 InlineKeyboardButton(
                     text="💬Оставить отзыв ВКонтакте",
-                    web_app=WebAppInfo(url="https://vk.com/vihlopexpert")
+                    web_app=WebAppInfo(url=settings.VK_URL)
                 )
             ],
             [
                 InlineKeyboardButton(
                     text="💬Оставить отзыв на АВИТО",
-                    web_app=WebAppInfo(url="https://www.avito.ru/brands/8f51494e77196e4becadd0029507402d?src=sharing")
+                    web_app=WebAppInfo(url=settings.AVITO_URL)
                 )
             ],
             [InlineKeyboardButton(text="➡️На главное меню⬅️",
@@ -72,7 +74,7 @@ async def chip_tuning_keyboard():
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(
                 text="✏️Напишите нам",
-                url="https://t.me/VeXhaust",
+                url=settings.SUPPORT_URL,
             ))
     keyboard.add(InlineKeyboardButton(text='➡️На главное меню⬅️', callback_data="main_keyboard"))
     return keyboard.adjust(1).as_markup()
@@ -85,7 +87,7 @@ async def service_keyboard(category_id: int):
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(
                 text="✏️Напишите нам",
-                url="https://t.me/TriBubi",
+                url=settings.SUPPORT_URL,
             ))
     keyboard.add(InlineKeyboardButton(text="✏️Записаться на Тюнинг", callback_data="submit_application"))
     keyboard.add(InlineKeyboardButton(text='➡️Предыдущее меню⬅️', callback_data=f"back_services_{category_id}"))
@@ -114,7 +116,7 @@ async def stock_keyboard():
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(
                 text="✏️Напишите нам",
-                url="https://t.me/TriBubi",
+                url=settings.SUPPORT_URL,
             ))
     keyboard.add(InlineKeyboardButton(text="Записаться по акции", callback_data="submit_application"))
     keyboard.add(InlineKeyboardButton(text='➡️Предыдущее меню⬅️', callback_data="back_stocks"))
