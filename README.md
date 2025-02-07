@@ -71,15 +71,7 @@ python3.12 -m venv venv
 ```
 source venv/bin/activate
 ```
-3. В корне проекта создаем файл переменных окружения .env с параметрами
-```
-TELEGRAM_TOKEN=<Токен вашего телеграм бота>
-ADMINS=<Список id телеграм пользователей, администраторов бота через запятую>
-REDIS_URL=False(True) Использование Redis (при значении False используется MemoryStorage)
-LOGS_PATH=<путь к паке с логами>
-DB_URL=<URL_к базе данных>
-```
-Для создания телеграм бота и получения токена воспользуйтесь [инструкцией](https://chatlabs.ru/botfather-instrukcziya-komandy-nastrojki/)
+3. Для создания телеграм бота и получения токена воспользуйтесь [инструкцией](https://chatlabs.ru/botfather-instrukcziya-komandy-nastrojki/)
 
 4. Устанавливаем зависимости
 ```
