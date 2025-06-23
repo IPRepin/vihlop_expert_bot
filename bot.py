@@ -56,6 +56,7 @@ async def bot_connect():
         await storage.close()
         await bot.session.close()
         await bot.close()
+        logger.info("Бот остановлен")
 
 
 def main():
